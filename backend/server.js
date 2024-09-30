@@ -13,13 +13,17 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 
+//////////////////
 //// PIRATES /////
 //////////////////
 
+////create a new pirate
 app.post("/api/pirates", async (request,response) => {
 
     const pirate = request.body;
     const newPirate = new Pirate(pirate);
+
+    // todo: update status code handling in case the wrong value is entered 
 
     try {
         await newPirate.save();
@@ -30,6 +34,7 @@ app.post("/api/pirates", async (request,response) => {
     };
 })
 
+//// retreive a list of all pirates 
 app.get("/api/pirates", async (request, response) => {
 
     try {
@@ -41,6 +46,7 @@ app.get("/api/pirates", async (request, response) => {
     };
 });
 
+//// update a pirates info
 app.put("/api/pirates/:pirateId", async (request, response) => {
 
     const pirateId = request.params.pirateId; 
@@ -55,6 +61,7 @@ app.put("/api/pirates/:pirateId", async (request, response) => {
     };
 });
 
+////delete a pirate
 app.delete("/api/pirates/:pirateId", async (request, response) => {
 
     const pirateId = request.params.pirateId;
@@ -68,10 +75,11 @@ app.delete("/api/pirates/:pirateId", async (request, response) => {
     };
 });
 
-
+////////////////
 //// CREWS /////
 ////////////////
 
+////create a crew
 app.post("/api/crews", async (request, response) => {
     
     const { name, ship, flagImage, captain } = request.body;
@@ -100,6 +108,7 @@ app.post("/api/crews", async (request, response) => {
     };
 });
 
+//// retreive list of crews
 app.get("/api/crews", async (request, response) => {
     try {
         const crews = await Crew.find({});
@@ -117,9 +126,15 @@ app.post("/api/crews/:crewId/pirates", async (request, response) => {
     const { pirateId } = request.body;
 
     try {
-        const crew = await Crew.findById(crewId);
 
+        const crew = await Crew.findById(crewId);
         const pirate = await Pirate.findById(pirateId);
+
+        if(crew.members.length > 10) {
+
+            return response.status(400).json( {succes: false, message:"Crew is full" } )
+        }
+
 
         if (pirate.crew) {
             return response.status(400).json({ message: 'Pirate is already part of a crew' });
@@ -145,13 +160,42 @@ app.post("/api/crews/:crewId/pirates", async (request, response) => {
             error: error.message
         });
     };
-
 });
 
+////remove pirate from crew
+app.delete("/api/crews/:crewId/pirates/:pirateId", async (resposne, request) => {
+
+    const { crewId, pirateId } = request.params 
+
+    try {
+        const crew = Crew.findById(crewId);
+        const pirate = Pirate.findById(pirateId);
+
+        crew.members.filter( member => member.toString() !== pirateId )
+        await crew.save();
+
+        pirate.crew = null;
+        await pirate.save()
+
+        response.status(200).json( {
+            success: true, 
+            message: 'Pirate successfully removed from crew',
+            crew,
+            pirate 
+        });
+
+    } catch (error) {
+        console.error("Error:", error)
+        response.status(500).json({ succes:false, message: "Server Error" })
+    }
+
+})
+
+////update a crews info
 app.put("/api/crews/:crewId", async (request, response) => {
 
-    const crewId = request.params.crewId;
-    const crew = request.body
+    const { crewId } = request.params;
+    const crew = request.body;
 
     try {
         const updatedCrew = await Crew.findByIdAndUpdate(crewId, crew, { new: true });
@@ -162,19 +206,21 @@ app.put("/api/crews/:crewId", async (request, response) => {
     };
 });
 
+////delete a crew
 app.delete("/api/crews/:crewId", async (request, response) => {
 
-    const crewId = request.params.crewId
+    const crewId = request.params.crewId;
 
     try {
         await Crew.findByIdAndDelete(crewId);
         response.status(200).json({succes: true, message:"Crew deleted"});
     } catch (error) {
-        console.error("Error:", error)
+        console.error("Error:", error);
         response.status(500).json({succes: false, message:"Server Error"});
     }
 });
 
+////set server port
 app.listen(PORT,() => {
     connectToDB();
     console.log("Connected at http://localhost:" + PORT);
