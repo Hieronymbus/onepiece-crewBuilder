@@ -74,13 +74,11 @@ app.delete("/api/pirates/:pirateId", async (request, response) => {
 
 app.post("/api/crews", async (request, response) => {
     
-    
     const { name, ship, flagImage, captain } = request.body;
     
-
     try {
 
-        const existingCaptain = await Pirate.findById(captain);
+        const theCaptain = await Pirate.findById(captain);
         const newCrew = new Crew({
             name,
             ship,
@@ -91,9 +89,9 @@ app.post("/api/crews", async (request, response) => {
 
         const savedCrew = await newCrew.save();
 
-        existingCaptain.rank = 'Captain';
-        existingCaptain.crew = savedCrew._id; 
-        await existingCaptain.save();
+        theCaptain.rank = 'Captain';
+        theCaptain.crew = savedCrew._id; 
+        await theCaptain.save();
 
         response.status(201).json({ succes: true, data: savedCrew});
     } catch (error) {
@@ -110,9 +108,11 @@ app.get("/api/crews", async (request, response) => {
         console.error("Error finding Crews:", error.message);
         response.status(404).json({success: true, message:"Server Error"});
     }   
-})
-//testthispostman
+});
+
+//// add a pirate to crew
 app.post("/api/crews/:crewId/pirates", async (request, response) => {
+
     const { crewId } = request.params;
     const { pirateId } = request.body;
 
@@ -122,15 +122,16 @@ app.post("/api/crews/:crewId/pirates", async (request, response) => {
         const pirate = await Pirate.findById(pirateId);
 
         if (pirate.crew) {
-            return res.status(400).json({ message: 'Pirate is already part of a crew' });
+            return response.status(400).json({ message: 'Pirate is already part of a crew' });
         }
 
         crew.members.push(pirateId)
         await crew.save()
 
-        pirate.crew = crew.__id;
+        pirate.crew = crew._id;
         pirate.rank = 'Crew Member';
-        await Pirate.save();
+
+        await pirate.save();
         response.status(200).json({
             success: true,
             message: 'Pirate successfully added to crew',
@@ -143,9 +144,9 @@ app.post("/api/crews/:crewId/pirates", async (request, response) => {
             message: 'Server error',
             error: error.message
         });
-    }
+    };
 
-})
+});
 
 app.put("/api/crews/:crewId", async (request, response) => {
 

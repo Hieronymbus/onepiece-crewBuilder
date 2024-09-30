@@ -4,6 +4,22 @@ one piece crew + members
 
 crud crew crud members
 
+
+# **Pirate Crew D&D/Tabbletop style**
+   
+   **base**:
+   - create pirates
+   - create crews
+
+   **to implement**:
+   - log in
+   - battle and levelup
+   - aquire items
+   - stats + skills + dice rolling system
+   - turn based
+
+
+
 To build your Pirate-Crew system with proper functionality, here’s a list of APIs (routes) you would need:
 
 ### **Pirates API**

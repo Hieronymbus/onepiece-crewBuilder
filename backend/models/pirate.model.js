@@ -15,12 +15,12 @@ const pirateSchema = new mongoose.Schema({
     },
     combatStyle: {
         type: String,
-        enum: ['Swordsman', 'Sniper', 'Support', 'Healer'], // Use enum to restrict values
+        enum: ['hand to hand', 'Swordsman', 'Sniper', 'Support', 'Healer'], // Use enum to restrict values
         required: true
     },
     role: {
         type: String,
-        enum: ['Navigator', 'Cook', 'Lookout', 'Helmsman', 'Crew Leader', 'shipwright'], // Define possible positions
+        enum: ['Navigator', 'Cook', 'Lookout', 'Helmsman', 'Crew Leader', 'shipwright', 'doctor'], // Define possible positions
         required: true
     },
     rank: {
