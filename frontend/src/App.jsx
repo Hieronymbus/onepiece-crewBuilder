@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, Routes } from "react-router-dom";
 
 import NavBar from './components/NavBar';
@@ -8,9 +8,30 @@ import PiratesPage from './pages/PiratesPage'
 
 function App() {
   
+  const [isDarkModeOn, setIsDarkModeOn] = useState(false);
+
+  useEffect(() => {
+
+    if(isDarkModeOn){
+
+      document.body.classList.add("dark")
+
+    } else {
+
+      document.body.classList.remove("dark")
+
+    }
+
+    
+  },[isDarkModeOn]);
+
+
   return (
-    <div className='h-screen w-screen bg-gradient-to-br from-yellow-600 to-yellow-400'>
-      <NavBar />
+    <div className='h-screen w-screen bg-wood-light dark:bg-wood-dark  text-wood-dark'>
+      <NavBar 
+        setIsDarkModeOn={setIsDarkModeOn}
+        isDarkModeOn={isDarkModeOn}
+      />
       <Routes>
         <Route path="/home" element={<HomePage />} />
         <Route path="/crews" element={<CrewsPage />} />
