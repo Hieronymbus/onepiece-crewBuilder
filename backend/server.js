@@ -132,12 +132,12 @@ app.post("/api/crews/:crewId/pirates", async (request, response) => {
 
         if(crew.members.length > 10) {
 
-            return response.status(400).json( {succes: false, message:"Crew is full" } )
+            return response.status(400).json( {success: false, message:"Crew is full" } )
         }
 
 
         if (pirate.crew) {
-            return response.status(400).json({ message: 'Pirate is already part of a crew' });
+            return response.status(400).json({success: false,  message: 'Pirate is already part of a crew' });
         }
 
         crew.members.push(pirateId)
@@ -163,19 +163,20 @@ app.post("/api/crews/:crewId/pirates", async (request, response) => {
 });
 
 ////remove pirate from crew
-app.delete("/api/crews/:crewId/pirates/:pirateId", async (resposne, request) => {
+app.delete("/api/crews/:crewId/pirates/:pirateId", async (request, response) => {
 
     const { crewId, pirateId } = request.params 
 
     try {
-        const crew = Crew.findById(crewId);
-        const pirate = Pirate.findById(pirateId);
+        const crew = await Crew.findById(crewId);
+        const pirate = await Pirate.findById(pirateId);
 
-        crew.members.filter( member => member.toString() !== pirateId )
+        crew.members = crew.members.filter( member => member.toString() !== pirateId )
         await crew.save();
 
+        pirate.rank = null;
         pirate.crew = null;
-        await pirate.save()
+        await pirate.save();
 
         response.status(200).json( {
             success: true, 
