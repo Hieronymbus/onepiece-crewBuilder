@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import Crew from "../models/crew.model";
-
+import Crew from "../models/crew.model.js";
+import Pirate from "../models/pirate.model.js";
 
 ////create a crew
 export const createCrew = async (request, response) => {

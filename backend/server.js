@@ -3,8 +3,8 @@ import { configDotenv } from "dotenv";
 
 import { connectToDB } from "./config/db.js";
 
-import { piratesRoutes } from "./routes/pirates.route.js"
-import { crewsRoutes } from "./routes/crews.route.js"
+import  piratesRoutes  from "./routes/pirates.route.js"
+import  crewsRoutes  from "./routes/crews.route.js"
 
 configDotenv();
 
@@ -18,7 +18,6 @@ app.use("/api/pirates", piratesRoutes)
 
 //// CREWS ////
 app.use("/api/crews", crewsRoutes)
-
 
 //// set server port ////
 app.listen(PORT,() => {

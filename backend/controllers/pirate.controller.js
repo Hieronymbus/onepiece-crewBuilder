@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Pirate from "../models/pirate.model";
+import Pirate from "../models/pirate.model.js";
 
 ////create a new pirate
 export const createPirate = async (request,response) => {
