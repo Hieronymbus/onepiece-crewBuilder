@@ -20,7 +20,7 @@ const pirateSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['Navigator', 'Cook', 'Lookout', 'Helmsman', 'Crew Leader', 'shipwright', 'doctor'], // Define possible positions
+        enum: ['Navigator', 'Cook', 'Lookout', 'Helmsman', 'Crew Leader', 'shipwright', 'doctor', 'boatswain'], // Define possible positions
         required: true
     },
     rank: {
