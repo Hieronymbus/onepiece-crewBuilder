@@ -8,17 +8,16 @@ import PiratesPage from './pages/PiratesPage'
 
 function App() {
   
-
   return (
-    <div className='h-screen w-screen '>
+    <div className='h-screen w-screen bg-gradient-to-br from-yellow-600 to-yellow-400'>
       <NavBar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/crews" element={<CrewsPage />} />
         <Route path="/pirates" element={<PiratesPage />} />
       </Routes>
     </div>
   )
-}
+};
 
 export default App
