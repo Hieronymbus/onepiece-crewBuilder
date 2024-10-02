@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 
-const PirateFormModal = () => {
+const PirateFormModal = ({ setIsModalOpen }) => {
 
-    const [formData, setFormData] = useState({
+    const [newPirate, setNewPirate] = useState({
         name: '',
         epithet: '',
         age: '',
@@ -11,11 +11,11 @@ const PirateFormModal = () => {
         bounty: '',
         image: '',
         // Crew and rank fields are not included for now
-      });
+    });
     
     const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
+    setNewPirate((prevState) => ({
         ...prevState,
         [name]: value,
     }));
@@ -26,9 +26,9 @@ const PirateFormModal = () => {
     // Here you would typically send the data to your backend
     // Example: await fetch('/api/pirates', { method: 'POST', body: JSON.stringify(formData) });
 
-    console.log('Pirate Data Submitted:', formData);
+    console.log('Pirate Data Submitted:', newPirate);
     // Reset form or provide feedback
-    setFormData({
+    setNewPirate({
         name: '',
         epithet: '',
         age: '',
@@ -37,6 +37,9 @@ const PirateFormModal = () => {
         bounty: '',
         image: '',
     });
+
+    setIsModalOpen(false);
+
     };
 
     const combatStyles = [
@@ -47,7 +50,7 @@ const PirateFormModal = () => {
         'Healer',
       ];
     
-      const roles = [
+    const roles = [
         'Navigator',
         'Cook',
         'Lookout',
@@ -56,7 +59,7 @@ const PirateFormModal = () => {
         'Shipwright',
         'Doctor',
         'Boatswain',
-      ];
+    ];
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -71,7 +74,7 @@ const PirateFormModal = () => {
                         type="text"
                         id="name"
                         name="name"
-                        value={formData.name}
+                        value={newPirate.name}
                         onChange={handleChange}
                         className="border rounded w-full p-2"
                         required
@@ -83,7 +86,7 @@ const PirateFormModal = () => {
                         type="text"
                         id="epithet"
                         name="epithet"
-                        value={formData.epithet}
+                        value={newPirate.epithet}
                         onChange={handleChange}
                         className="border rounded w-full p-2"
                     />
@@ -94,7 +97,7 @@ const PirateFormModal = () => {
                         type="number"
                         id="age"
                         name="age"
-                        value={formData.age}
+                        value={newPirate.age}
                         onChange={handleChange}
                         className="border rounded w-full p-2"
                         required
@@ -105,7 +108,7 @@ const PirateFormModal = () => {
                     <select
                         id="combatStyle"
                         name="combatStyle"
-                        value={formData.combatStyle}
+                        value={newPirate.combatStyle}
                         onChange={handleChange}
                         className="border rounded w-full p-2"
                         required
@@ -121,7 +124,7 @@ const PirateFormModal = () => {
                     <select
                         id="role"
                         name="role"
-                        value={formData.role}
+                        value={newPirate.role}
                         onChange={handleChange}
                         className="border rounded w-full p-2"
                         required
@@ -138,7 +141,7 @@ const PirateFormModal = () => {
                         type="number"
                         id="bounty"
                         name="bounty"
-                        value={formData.bounty}
+                        value={newPirate.bounty}
                         onChange={handleChange}
                         className="border rounded w-full p-2"
                     />
@@ -149,7 +152,7 @@ const PirateFormModal = () => {
                         type="text"
                         id="image"
                         name="image"
-                        value={formData.image}
+                        value={newPirate.image}
                         onChange={handleChange}
                         className="border rounded w-full p-2"
                     />

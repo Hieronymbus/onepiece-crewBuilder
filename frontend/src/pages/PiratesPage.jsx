@@ -1,10 +1,25 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+
+import { usePirateStore } from '../store/pirate.js'
+
 import PirateFormModal from '../components/PirateFormModal'
+import PirateCard from '../components/PirateCard.jsx'
 
 const PiratesPage = () => {
   
+  const { pirates, readPirates} = usePirateStore()
+
   const [isModalOpen, setIsModalOpen] = useState(false)
   
+  useEffect(() => {
+
+    readPirates()
+
+
+    console.log(pirates)
+
+  },[readPirates])
+
   const handleOpenModal = ( ) => {
       setIsModalOpen(true)
   }
@@ -24,6 +39,22 @@ const PiratesPage = () => {
         
       </div>
       <div className='w-11/12 h-5/6 border-2 border-orange-900 p-4'> 
+        {
+          pirates.map((pirate, index) => {
+            return (
+              <PirateCard
+                key={index}
+                name={pirate.name}
+                epithet={pirate.epithet}
+                age={pirate.age}
+                combatStyle={pirate.combatStyle}
+                role={pirate.role}
+                bounty={pirate.bounty}
+                image={pirate.image}
+              />
+            );
+          })
+        }
       </div>
 
       {isModalOpen && <PirateFormModal setIsModalOpen={setIsModalOpen} />}
