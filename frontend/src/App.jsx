@@ -27,7 +27,7 @@ function App() {
 
 
   return (
-    <div className='h-screen w-screen bg-wood-light dark:bg-wood-dark  text-wood-dark'>
+    <div className='h-screen w-screen bg-wood-light dark:bg-wood-dark  text-wood-dark dark:text-slate-200'>
       <NavBar 
         setIsDarkModeOn={setIsDarkModeOn}
         isDarkModeOn={isDarkModeOn}

@@ -49,7 +49,7 @@ const NavBar = ({ isDarkModeOn, setIsDarkModeOn }) => {
                 className='h-full w-full text-4xl flex justify-center items-center text-amber-950 bg-wood-brown dark:bg-wood-brown-dark rounded-lg shadow-lg' 
 
               >
-                CREWS
+                CREWS..
                 <FaShip size={40} color="black" />
               </button>
             </Link>

@@ -2,7 +2,7 @@ import React from 'react'
 
 const CrewsPage = () => {
   return (
-    <div>CrewsPage</div>
+    <div className='text-6xl'>CrewsPage</div>
   )
 }
 
