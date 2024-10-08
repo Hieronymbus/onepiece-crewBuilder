@@ -1,6 +1,9 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
+import { usePirateStore } from '../store/pirate';
 
 const PirateFormModal = ({ setIsModalOpen }) => {
+
+    const { createPirate } = usePirateStore
 
     const [newPirate, setNewPirate] = useState({
         name: '',
@@ -9,36 +12,43 @@ const PirateFormModal = ({ setIsModalOpen }) => {
         combatStyle: '',
         role: '',
         bounty: '',
-        image: '',
-        // Crew and rank fields are not included for now
     });
     
+    const imageIinputRef = useRef(null)
+
     const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewPirate((prevState) => ({
-        ...prevState,
-        [name]: value,
-    }));
+        const { name, value } = e.target;
+        setNewPirate((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
     };
 
+    const handleCloseModal = () => {
+        setIsModalOpen(false)
+    }
+
     const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Here you would typically send the data to your backend
-    // Example: await fetch('/api/pirates', { method: 'POST', body: JSON.stringify(formData) });
+        e.preventDefault();
+        // Here you would typically send the data to your backend
+        // Example: await fetch('/api/pirates', { method: 'POST', body: JSON.stringify(formData) });
 
-    console.log('Pirate Data Submitted:', newPirate);
-    // Reset form or provide feedback
-    setNewPirate({
-        name: '',
-        epithet: '',
-        age: '',
-        combatStyle: '',
-        role: '',
-        bounty: '',
-        image: '',
-    });
+        const newPirateImage = imageIinputRef.current.files[0]
 
-    setIsModalOpen(false);
+        await createPirate(newPirate, newPirateImage)
+
+        // Reset form or provide feedback
+        setNewPirate({
+            name: '',
+            epithet: '',
+            age: '',
+            combatStyle: '',
+            role: '',
+            bounty: '',
+        });
+        imageIinputRef.current.value = null;
+
+        setIsModalOpen(false);
 
     };
 
@@ -147,17 +157,27 @@ const PirateFormModal = ({ setIsModalOpen }) => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="image" className="block text-sm font-medium mb-1">Image URL:</label>
+                    <label htmlFor="image" className="block text-sm font-medium mb-1">Upload Image:</label>
                     <input
-                        type="text"
+                        type="file"
                         id="image"
                         name="image"
-                        value={newPirate.image}
-                        onChange={handleChange}
+                        accept="image/*" 
+                        ref={imageIinputRef}
                         className="border rounded w-full p-2"
                     />
                 </div>
-                <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+
+                <button 
+                    className="mr-2 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                    onClick={handleCloseModal}
+                >
+                    Cancel
+                </button>
+                <button 
+                    type="submit" 
+                    className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                >
                     Create Pirate
                 </button>
             </form>

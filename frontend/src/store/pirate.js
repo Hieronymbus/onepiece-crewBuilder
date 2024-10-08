@@ -3,7 +3,7 @@ import { create } from 'zustand' ;
 export const usePirateStore = create( (set) => ({
     pirates: [],
     setPirates:(pirates) => set({ pirates }),
-    createPirate: async (newPirate) => {
+    createPirate: async (newPirate, newPirateImage) => {
         
         if(
             !newPirate.name 
@@ -12,17 +12,28 @@ export const usePirateStore = create( (set) => ({
             || !newPirate.combatStyle 
             || !newPirate.role 
             || !newPirate.bounty 
-            || !newPirate.image
+            || !newPirateImage
         ){
             return {success: false, message:"Please fill in all fields"}
         }
 
+        const form = new FormData();
+
+        form.append("name",newPirate.name)
+        form.append("epithet",newPirate.epithet )
+        form.append("age" ,newPirate.age )
+        form.append("combatStyle" ,newPirate.combatStyle )
+        form.append("role" ,newPirate.role )
+        form.append("bounty" ,newPirate.bounty )
+        form.append("image" ,newPirateImage)
+        
+
         const response = await fetch("/api/pirates/", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                accept: "application/json "
             },
-            body: JSON.stringify(newPirate)
+            body: form
         })
         const data = await response.json()
 

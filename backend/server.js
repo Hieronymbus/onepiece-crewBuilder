@@ -1,4 +1,5 @@
 import express, { request, response } from "express";
+import { fileupload } from "express-fileupload";
 import { configDotenv } from "dotenv";
 
 import { connectToDB } from "./config/db.js";
@@ -12,6 +13,8 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+
+app.use(fileupload())
 
 //// PIRATES ////
 app.use("/api/pirates", piratesRoutes)

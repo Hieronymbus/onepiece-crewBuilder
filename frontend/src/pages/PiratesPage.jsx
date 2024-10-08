@@ -12,11 +12,8 @@ const PiratesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   
   useEffect(() => {
-
+     
     readPirates()
-
-
-    console.log(pirates)
 
   },[readPirates])
 

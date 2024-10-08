@@ -5,6 +5,9 @@ import Pirate from "../models/pirate.model.js";
 export const createPirate = async (request,response) => {
 
     const pirate = request.body;
+    
+
+
     const newPirate = new Pirate(pirate);
 
     // todo: update status code handling in case the wrong value is entered 
