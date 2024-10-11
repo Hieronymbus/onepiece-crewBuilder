@@ -35,7 +35,7 @@ const PiratesPage = () => {
         </div>
         
       </div>
-      <div className='w-11/12 h-5/6 border-2 border-orange-900 p-4'> 
+      <div className='w-11/12 min-h-screen flex flex-wrap gap-5 border-2 border-orange-900 p-4'> 
         {
           pirates.map((pirate, index) => {
             return (

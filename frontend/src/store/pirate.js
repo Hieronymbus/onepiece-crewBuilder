@@ -19,15 +19,14 @@ export const usePirateStore = create( (set) => ({
 
         const form = new FormData();
 
-        form.append("name",newPirate.name)
-        form.append("epithet",newPirate.epithet )
-        form.append("age" ,newPirate.age )
-        form.append("combatStyle" ,newPirate.combatStyle )
-        form.append("role" ,newPirate.role )
-        form.append("bounty" ,newPirate.bounty )
-        form.append("image" ,newPirateImage)
+        form.append("name",newPirate.name);
+        form.append("epithet",newPirate.epithet );
+        form.append("age" ,newPirate.age );
+        form.append("combatStyle" ,newPirate.combatStyle );
+        form.append("role" ,newPirate.role );
+        form.append("bounty" ,newPirate.bounty );
+        form.append("image" ,newPirateImage);
         
-
         const response = await fetch("/api/pirates/", {
             method: "POST",
             headers: {
@@ -47,4 +46,10 @@ export const usePirateStore = create( (set) => ({
         const data = await response.json();
         set({pirates: data.data})
     },
+    updatePirate: async () => {
+
+    },
+    deletePirate: async () => {
+
+    }
 }));

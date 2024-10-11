@@ -3,7 +3,7 @@ import { usePirateStore } from '../store/pirate';
 
 const PirateFormModal = ({ setIsModalOpen }) => {
 
-    const { createPirate } = usePirateStore
+    const { createPirate } = usePirateStore()
 
     const [newPirate, setNewPirate] = useState({
         name: '',
@@ -14,7 +14,7 @@ const PirateFormModal = ({ setIsModalOpen }) => {
         bounty: '',
     });
     
-    const imageIinputRef = useRef(null)
+    const imageInputRef = useRef(null)
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,7 +33,7 @@ const PirateFormModal = ({ setIsModalOpen }) => {
         // Here you would typically send the data to your backend
         // Example: await fetch('/api/pirates', { method: 'POST', body: JSON.stringify(formData) });
 
-        const newPirateImage = imageIinputRef.current.files[0]
+        const newPirateImage = imageInputRef.current.files[0]
 
         await createPirate(newPirate, newPirateImage)
 
@@ -46,7 +46,7 @@ const PirateFormModal = ({ setIsModalOpen }) => {
             role: '',
             bounty: '',
         });
-        imageIinputRef.current.value = null;
+        imageInputRef.current.value = null;
 
         setIsModalOpen(false);
 
@@ -163,7 +163,7 @@ const PirateFormModal = ({ setIsModalOpen }) => {
                         id="image"
                         name="image"
                         accept="image/*" 
-                        ref={imageIinputRef}
+                        ref={imageInputRef}
                         className="border rounded w-full p-2"
                     />
                 </div>
