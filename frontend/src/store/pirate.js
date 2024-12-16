@@ -30,7 +30,7 @@ export const usePirateStore = create( (set) => ({
         const response = await fetch("/api/pirates/", {
             method: "POST",
             headers: {
-                accept: "application/json "
+                "Accept": "application/json "
             },
             body: form
         })
